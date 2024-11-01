@@ -1,0 +1,3 @@
+# deterministyczny automat skonczony
+
+
