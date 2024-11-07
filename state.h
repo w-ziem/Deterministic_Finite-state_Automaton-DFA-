@@ -1,10 +1,10 @@
-#ifndef _STATE_
-#define STATE
+#ifndef _STAN_T_
+#define STAN_T
 
-typedef struct
-{
-    int nast_stan[2]; //kazdy stan będzie zawierał wskaźniki do dwóch stanów, do których może przejść - nast_stan[0] dla wejścia "0" oraz nast_stan[1] dla wejścia "1"
-} state;
+typedef enum {q0, q1, q2, q3} stan_t;
+
+
+stan_t zmienStan(stan_t aktualny, char wejscie);
 
 #endif
 

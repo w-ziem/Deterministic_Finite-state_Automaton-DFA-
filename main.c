@@ -1,29 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include "state.h"
+
+int main() {
+   //wejscie zdefiniowane na sztywno TODO: dynamiczna alokacja i pobierane
+   char wejscie[7] = "0010111"; 
+   stan_t obecny_stan = q0; // ustawiam stan początkowy (default case)
+   
+   printf("sprawdzany ciąg wejściowy: %s\n", wejscie);
+   printf("START -> (q%d)", obecny_stan);
 
 
-typedef enum {q0, q1, q2, q3} stan;
+   for(int i = 0; i < strlen(wejscie); i++){
+      if(wejscie[i] != '0' && wejscie[i] != '1'){
+         printf("%c", wejscie[i]);
+         fprintf(stderr, "Niedozwolone wejście. Błąd.\n");
+         return EXIT_FAILURE;
+      } else {
+         obecny_stan = zmienStan(obecny_stan, wejscie[i]);
+         printf("-%c->(q%d)", wejscie[i], obecny_stan);
+      }
+   }
+   printf(" -> KONIEC\n");
 
+   if(obecny_stan == q3){
+      printf("Poprawne wejście, symulacja zakończona sukcesem.\n");
+   } else {
+      printf("Niepoprawne wejście, symulacja zakończona niepowodzeniem.\n");
+   }
 
-stan zmienStan(stan aktualny, char wejscie) {
-    switch (aktualny)
-    {
-    case q0: return (wejscie == '0') ? q1 : q2;
-    break;
-    case q1: return (wejscie == '0') ? q3 : q0;
-    break;
-    case q2: return (wejscie == '0') ? q0 : q3;
-    break;
-    case q3: return (wejscie == '0') ? q1 : q2;
-    break;
-    default : return q0; //bazowo wracamy na start  
-    }
-}  
-
-
-
-int main(int argc, char *argv[]) {
-    char wejscia[] = argc > 1 ? argv[1] : '1111';
-    printf("%s", wejscia);
-
+   return EXIT_SUCCESS;
 }
