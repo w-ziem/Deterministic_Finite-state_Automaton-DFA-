@@ -4,6 +4,15 @@
 
 #include "state.h"
 
+void sprawdz_wynik(stan_t stan) {
+   if(stan == q3){
+      printf("Poprawne wejście, symulacja zakończona sukcesem.\n");
+   } else {
+      printf("Niepoprawne wejście, symulacja zakończona niepowodzeniem.\n");
+   }
+
+}
+
 int main() {
    //wejscie zdefiniowane na sztywno TODO: dynamiczna alokacja i pobierane
    char wejscie[7] = "0010111"; 
@@ -25,11 +34,7 @@ int main() {
    }
    printf(" -> KONIEC\n");
 
-   if(obecny_stan == q3){
-      printf("Poprawne wejście, symulacja zakończona sukcesem.\n");
-   } else {
-      printf("Niepoprawne wejście, symulacja zakończona niepowodzeniem.\n");
-   }
+   sprawdz_wynik(obecny_stan);
 
    return EXIT_SUCCESS;
 }

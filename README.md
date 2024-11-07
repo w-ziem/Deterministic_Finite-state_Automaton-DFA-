@@ -2,17 +2,10 @@
 
 
 - q0 jest stanem początkowym
-- q0 jest stanem końcowym
+- q3 jest stanem końcowym
 
 program dostaje ciąg 01, który po kolei wykonuje kroki i sprawdza czy zakonczyl sie powodzeniem
 
-## kazdy stan powinien byc opisany taka struktura:
- stan = {0 : nowy_stan,
-        1 : nowy_stan}
-
-
-
- 
 ./a.out  0010110010
 
 wyciek działania programu (aktualny stan)
