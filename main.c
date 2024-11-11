@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "state.h"
+#include "stan.h"
 
 void sprawdz_wynik(stan_t stan) {
    if(stan == q3){
+      printf("SUKCES!\n");
       printf("Poprawne wejście, symulacja zakończona sukcesem.\n");
    } else {
       printf("Niepoprawne wejście, symulacja zakończona niepowodzeniem.\n");
@@ -12,20 +13,7 @@ void sprawdz_wynik(stan_t stan) {
 
 }
 
-char* pobierz_wejscie(int dlugosc){
-   char *ciag = malloc((dlugosc+1) * sizeof(char)); //alokowanie miejsca w pamięci dla ciągu wejściowego (+1 ponieważ jeszcze znak końca \0)
-   if(ciag == NULL) { //sprawdzenie czy alokowanie pamięci zakończyło się poprawnie
-      fprintf(stderr, "Bład alokacji pamięci");
-      return NULL;
-   }
-
-   printf("Podaj ciąg wejściowy: ");
-   fgets(ciag, dlugosc+1, stdin); //pobieranie ciągu wejściowego (dlugosc+1 ponieważ dodajemy miejsce na znak końca linii, która funkcja automatycznie dodaje)
-   return ciag;
-}
-
-int main() {
-   // char wejscie[7] = "0010112"; 
+char* pobierz_wejscie(){
    // Pobieranie długości wejścia od użytkownika
    char dlugosc_str[10];
    printf("Podaj długość ciągu wejściowego: ");
@@ -33,16 +21,38 @@ int main() {
    int dlugosc = atoi(dlugosc_str);
 
 
+   char *ciag = malloc((dlugosc+1) * sizeof(char)); //alokowanie miejsca w pamięci dla ciągu wejściowego (+1 ponieważ jeszcze znak końca \0)
+   if(ciag == NULL) { //sprawdzenie czy alokowanie pamięci zakończyło się poprawnie
+      fprintf(stderr, "Bład alokacji pamięci");
+      return NULL;
+   }
+
+   printf("Podaj ciąg wejściowy: ");
+   fgets(ciag, dlugosc+2, stdin); //pobieranie ciągu wejściowego (dlugosc+1 ponieważ dodajemy miejsce na znak końca linii, która funkcja automatycznie dodaje)
+
+   // Sprawdzanie obecności znaku nowej linii '\n' i usuwanie go
+   size_t len = strlen(ciag);
+   if (ciag[len - 1] == '\n') {
+      ciag[len - 1] = '\0';
+      len--; //aktualizacja dlugosci po usunieciu '\n'
+   }
+
+   if(len != dlugosc){
+      fprintf(stderr, "Podano błędą ilość znaków.\n");
+      printf("zadeklarowana dlugosc: %d, odczytana dlugosc ciagu: %ld\n", dlugosc, strlen(ciag));
+      free(ciag);
+      return NULL;
+   }
+   return ciag;
+}
+
+int main() {
    // Pobieranie ciągu wejściowego
-   char* wejscie = pobierz_wejscie(dlugosc);
+   char* wejscie = pobierz_wejscie();
    if (!wejscie){
       return EXIT_FAILURE;
    }
-   //TODO: sprawdzic czy podana ilosc znakow i ta wpisana jest taka sama.
-   // if(strlen(wejscie) != dlugosc){
-   //    fprintf(stderr, "Podano błędą ilość znaków.\n");
-   //    return EXIT_FAILURE;
-   // }
+   size_t dlugosc = strlen(wejscie);
    
    stan_t obecny_stan = q0; //ustawienie stanu początkowego
    

@@ -1,4 +1,4 @@
-#include "state.h"
+#include "stan.h"
 
 stan_t zmienStan(stan_t aktualny, char wejscie) {
     switch (aktualny)
